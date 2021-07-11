@@ -4,7 +4,7 @@
 
 #include <stdio.h> //	to take out ?
 
-#include "libbin.h"
+#include "binary_utility.h"
 
 
 // Precomputed bitmasks

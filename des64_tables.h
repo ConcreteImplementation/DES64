@@ -1,5 +1,5 @@
-#ifndef DES64_TABLE_HEADER
-#define DES64_TABLE_HEADER
+#ifndef _DES64_TABLE_HEADER_
+#define _DES64_TABLE_HEADER_
 
 #include <stdint.h>
 // T Y P E D E F

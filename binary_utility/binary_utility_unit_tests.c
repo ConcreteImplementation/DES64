@@ -9,7 +9,7 @@
 #include <string.h>
 
 
-#include "../libbin.h"
+#include "binary_utility.h"
 
 
 void test_bin_sizeof_macro(void** state){
@@ -220,32 +220,39 @@ void test_string_printpretty_error(void** state){
 
 
 
-struct bigint{
-	int value[4];
-};
+// struct bigint{
+// 	int value[4];
+// };
 
 
-void test_on_struct(void** state){
-	uint16_t
-	char buffer[129] = "";
-	char bufferpretty[161] = "";
-	struct bigint bint;
+// void test_on_struct(void** state){
+// 	uint16_t
+// 	char buffer[129] = "";
+// 	char bufferpretty[161] = "";
+// 	struct bigint bint;
 
-	bint.value[0] = 10;
-	bint.value[1] = 10;
-	bint.value[2] = 10;
-	bint.value[3] = 10;
+// 	bint.value[0] = 10;
+// 	bint.value[1] = 10;
+// 	bint.value[2] = 10;
+// 	bint.value[3] = 10;
 
-	for(int i = 0; i<4; i++)
-		printf("%d\n", bint.value[i]);
+// 	for(int i = 0; i<4; i++)
+// 		printf("%d\n", bint.value[i]);
 
-	rotl(bint, 1);
+// 	rotl(bint, 1);
 
 
-	for(int i = 0; i<4; i++)
-		printf("%d\n", bint.value[i]);
-}
+// 	for(int i = 0; i<4; i++)
+// 		printf("%d\n", bint.value[i]);
+// }
 
+
+	// const struct CMUnitTest tests_edge[] = {
+	// 	cmocka_unit_test(test_on_struct)
+	// };
+
+	// printf("\n");
+	// cmocka_run_group_tests(tests_edge, NULL, NULL);
 
 int main(int argc, char** argv){
 	const struct CMUnitTest tests_macros[] = {
@@ -262,17 +269,13 @@ int main(int argc, char** argv){
 	};
 
 
-	const struct CMUnitTest tests_edge[] = {
-		cmocka_unit_test(test_on_struct)
-	};
 
 
 
 	cmocka_run_group_tests(tests_macros, NULL, NULL);
 	printf("\n");
 	cmocka_run_group_tests(tests_convertions, NULL, NULL);
-	printf("\n");
-	cmocka_run_group_tests(tests_edge, NULL, NULL);
+
 
 	return 0;
 }
