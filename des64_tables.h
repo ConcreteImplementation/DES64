@@ -1,35 +1,5 @@
-#ifndef _DES64_TABLE_HEADER_
-#define _DES64_TABLE_HEADER_
-
-#include <stdint.h>
-// T Y P E D E F
-
-enum {
-	INITIAL_PERMUTATION,
-	FINAL_PERMUTATION
-};
-
-
-typedef struct {
-	uint32_t right;
-	uint32_t left;
-	uint64_t temp: 48;
-} half_t;
-
-typedef struct {
-	uint64_t key:48;
-} key_schedule_t;
-
-typedef	struct {
-	uint32_t C:28;
-	uint32_t D:28;
-} blocks48bits_t;
-
-
-
-
-// T A B L E S
-
+#ifndef _DES64_TABLES_HEADER_
+#define _DES64_TABLES_HEADER_
 
 
 // Initial and final permutations
