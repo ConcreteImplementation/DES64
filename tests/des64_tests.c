@@ -9,7 +9,6 @@
 #include <string.h>
 #include <assert.h>
 
-#define DES64_NUMBER_OF_ROUNDS 1
 
 #include "des64_internal.h"
 #include "../binary_utility/binary_utility.h"
@@ -99,11 +98,6 @@ void keyschedule_permuted_choice_1(void** state){
 
 int main(int argc, char** argv){
 
-	assert(DES64_NUMBER_OF_ROUNDS >=  1);
-	assert(DES64_NUMBER_OF_ROUNDS <= 16);
-	#if DES64_NUMBER_OF_ROUNDS != 16
-	#warning DES64_NUMBER_OF_ROUNDS != 16
-	#endif
 	
 	
 	const struct CMUnitTest internals[] = {
@@ -113,13 +107,13 @@ int main(int argc, char** argv){
 	};
 
 
-	const struct CMUnitTest keyscedule[] = {
+	const struct CMUnitTest keyschedule[] = {
 		cmocka_unit_test(keyschedule_permuted_choice_1)
 	};
 
 	cmocka_run_group_tests(internals, NULL, NULL);
 	printf("\n");
-	cmocka_run_group_tests(keyscedule, NULL, NULL);
+	cmocka_run_group_tests(keyschedule, NULL, NULL);
 	printf("\n");
 	return 0;
 }
