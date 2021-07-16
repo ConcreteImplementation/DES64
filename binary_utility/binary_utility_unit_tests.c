@@ -220,39 +220,15 @@ void test_string_printpretty_error(void** state){
 
 
 
-// struct bigint{
-// 	int value[4];
-// };
+void test_bin_itoa_pretty(void** state){
+	char buffer[255] = "";
+	int i = 0x2AAAAAAA;
+	
+	assert_string_equal("10 1010 1010 1010 1010 1010 1010 1010", 
+		bin_itoa_pretty( i, buffer, sizeof(buffer) )
+	);
+}
 
-
-// void test_on_struct(void** state){
-// 	uint16_t
-// 	char buffer[129] = "";
-// 	char bufferpretty[161] = "";
-// 	struct bigint bint;
-
-// 	bint.value[0] = 10;
-// 	bint.value[1] = 10;
-// 	bint.value[2] = 10;
-// 	bint.value[3] = 10;
-
-// 	for(int i = 0; i<4; i++)
-// 		printf("%d\n", bint.value[i]);
-
-// 	rotl(bint, 1);
-
-
-// 	for(int i = 0; i<4; i++)
-// 		printf("%d\n", bint.value[i]);
-// }
-
-
-	// const struct CMUnitTest tests_edge[] = {
-	// 	cmocka_unit_test(test_on_struct)
-	// };
-
-	// printf("\n");
-	// cmocka_run_group_tests(tests_edge, NULL, NULL);
 
 int main(int argc, char** argv){
 	const struct CMUnitTest tests_macros[] = {
@@ -265,7 +241,8 @@ int main(int argc, char** argv){
 		cmocka_unit_test(test_bin_itoa),
 		cmocka_unit_test(test_bin_itoa_error),
 		cmocka_unit_test(test_string_printpretty),
-		cmocka_unit_test(test_string_printpretty_error)
+		cmocka_unit_test(test_string_printpretty_error),
+		cmocka_unit_test(test_bin_itoa_pretty)
 	};
 
 

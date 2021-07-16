@@ -2,30 +2,9 @@
 #include <string.h>
 
 
-#include <stdio.h> //	to take out ?
+// #include <stdio.h> //	to take out ?
 
 #include "binary_utility.h"
-
-
-// Precomputed bitmasks
-const uint64_t MASKS[64] = { 
-	0x1,                0x2,                0x4,                0x8,
-	0x10,               0x20,               0x40,               0x80,
-	0x100,              0x200,              0x400,              0x800,
-	0x1000,             0x2000,             0x4000,             0x8000,
-	0x10000,            0x20000,            0x40000,            0x80000,
-	0x100000,           0x200000,           0x400000,           0x800000, 
-	0x1000000,          0x2000000,          0x4000000,          0x8000000, 
-	0x10000000,         0x20000000,         0x40000000,         0x80000000, 
-	0x100000000,        0x200000000,        0x400000000,        0x800000000, 
-	0x1000000000,       0x2000000000,       0x4000000000,       0x8000000000, 
-	0x10000000000,      0x20000000000,      0x40000000000,      0x80000000000,
-	0x100000000000,     0x200000000000,     0x400000000000,     0x800000000000,
-	0x1000000000000,    0x2000000000000,    0x4000000000000,    0x8000000000000,
-	0x10000000000000,   0x20000000000000,   0x40000000000000,   0x80000000000000,
-	0x100000000000000,  0x200000000000000,  0x400000000000000,  0x800000000000000,
-	0x1000000000000000, 0x2000000000000000, 0x4000000000000000, 0x8000000000000000
-};
 
 
 
@@ -89,6 +68,25 @@ ERRBIN_T bin_string_prettyspace(char* bufin, char* bufout, long bufoutsize, int 
 	return ERRBIN_SUCCESS;
 }
 
+
+#include <stdio.h>
+char* bin_itoa_pretty(uint64_t number, char* buffer, long bufferSize) {
+	char bufferTemp[80];
+
+	ERRBIN_T err = bin_itoa_typesize(number, sizeof(number), bufferTemp, sizeof(bufferTemp));
+	if(err) {
+		fprintf(stderr, "error: bin_itoa_typesize() %d\n", err);
+		return NULL;
+	}
+
+	err = bin_string_prettyspace(bufferTemp, buffer, bufferSize, 4);
+	if(err) {
+		fprintf(stderr, "error: bin_itoa_typesize() %d\n", err);
+		return NULL;
+	}
+
+	return bin_getptr_skipleadingzeros(buffer);
+}
 
 
 // return error code

@@ -17,8 +17,6 @@ typedef enum {
 } ERRBIN_T;
 
 
-// Precomputed bitmasks
-const uint64_t MASKS[64];
 
 
 ERRBIN_T bin_itoa_typesize(uint64_t n, long typesize, char* buf, long bufsize);
@@ -27,5 +25,6 @@ ERRBIN_T bin_itoa_typesize(uint64_t n, long typesize, char* buf, long bufsize);
 char* bin_getptr_skipleadingzeros(char* buf);
 ERRBIN_T bin_string_prettyspace(char* bufin, char* bufout, long bufoutsize, int space);
 
+char* bin_itoa_pretty(uint64_t number, char* buffer, long bufferSize) ;
 
 #endif
