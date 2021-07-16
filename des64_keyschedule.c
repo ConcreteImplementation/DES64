@@ -18,10 +18,6 @@ keyblock_t _keyschedule_permuted_choice_1(uint64_t key) {
 
 	DES64_DO_PERMUTATION(key, keyBlock.block, PC1, 56);
 
-	// for(int i = 0; i < 56; i++)
-	// 	if( DES64_IS_BIT_SET(key, PC1, i) )
-	// 		keyBlock.block |= MASKS[i];
-
 	keyBlock.blocks.D = keyBlock.block >> 28;
 
 	return keyBlock;
@@ -32,13 +28,9 @@ keyschedule_t _keyschedule_permuted_choice_2(keyblock_t keyBlock) {
 	keyschedule_t keySchedule;
 	keySchedule.key = 0;
 
-	uint64_t block = keyBlock.blocks.D << 28 | keyBlock.blocks.C;
-
+	uint64_t block = (uint64_t)keyBlock.blocks.D << 28 | keyBlock.blocks.C;
+	
 	DES64_DO_PERMUTATION(block, keySchedule.key, PC2, 48);
-
-	// for(int i = 0; i < 48; i++)
-	// 	if( DES64_IS_BIT_SET(block, PC2, i) )
-	// 		keySchedule.key |= MASKS[i];
 
 	return keySchedule;
 }
