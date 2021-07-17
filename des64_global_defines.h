@@ -27,7 +27,7 @@
 	#elif DES64_NUMBER_OF_ROUNDS > 16
 		#error "DES64_NUMBER_OF_ROUNDS > 16"
 	#elif DES64_NUMBER_OF_ROUNDS % 2 != 0
-		#error "DES64_NUMBER_OF_ROUNDS is odd"
+		#warning "DES64_NUMBER_OF_ROUNDS is odd"
 	#endif
 #endif
 

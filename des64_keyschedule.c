@@ -2,7 +2,7 @@
 
 #include "des64_keyschedule.tables.h"
 
-#define ROTATE_LEFT_28_BITS(n, shift)  ( n<<shift  |  n>>(28-shift) )
+#define ROTATE_LEFT_28_BITS(n, shift)  ( n =  n<<shift  |  n>>(28-shift) )
 
 #define KEYSCHEDULE_LEFT_SHIFT(keyBlock, shift)         \
 	ROTATE_LEFT_28_BITS(keyBlock.blocks.C, LS[shift]);  \
@@ -34,7 +34,6 @@ keyschedule_t _keyschedule_permuted_choice_2(keyblock_t keyBlock) {
 
 	return keySchedule;
 }
-
 
 PUBLIC
 void make_keyschedule(uint64_t key, keyschedule_t* outKeySchedule) {

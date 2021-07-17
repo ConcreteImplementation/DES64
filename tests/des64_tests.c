@@ -30,7 +30,8 @@ int main(int argc, char** argv){
 	const struct CMUnitTest keyschedule[] = {
 		cmocka_unit_test(keyschedule_permuted_choice_1),
 		cmocka_unit_test(keyschedule_permuted_choice_2),
-		cmocka_unit_test(keyschedule_permuted_choice_2_2)
+		cmocka_unit_test(keyschedule_permuted_choice_2_2),
+		cmocka_unit_test(keyschedule_make_keyschedule)
 	};
 
 
