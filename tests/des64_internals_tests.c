@@ -50,10 +50,44 @@ void expansion(void** state){
 	);
 }
 
-void permutation32bits(void** state){
+
+
+void find_substitution(void** state){
+	uint32_t source =  0;
+	uint32_t destination = 0;
+
+	source =  0x1B; //011011
+	destination = _find_substitution(0, source);
+	assert_int_equal(destination, 0x5);
+
+	source =  0x35; //110101
+	destination = _find_substitution(3, source);
+	assert_int_equal(destination, 0x5);
+
+	source =  0x28; //101000
+	destination = _find_substitution(7, source);
+	assert_int_equal(destination, 0x9);
+}
+
+void substitution(void** state){
+	uint64_t source =  0x0F0F0F0F0F0F;
+	// 000011 110000 111100 001111 000011 110000 111100 001111
+	// 8 1 1  7 2 8  6 2 14 5 1 7  4 1 1  3 2 8  2 2 14 1 1 7
+	// 15     10     11     1      8      11     2      1
+	// 1111   1010   1011   0001   1000   1011   0010   0001
+	uint32_t destination = _substitution(source);
+
+	char buffer[99] = "";
+	assert_string_equal( "1111 1010 1011 0001 1000 1011 0010 0001",
+		bin_itoa_pretty( destination, buffer, sizeof(buffer) )
+	);
+}
+
+
+void primitive(void** state){
 	uint32_t source =  0xFFFF;
 
-	_permutation32bits(&source);
+	_primitive(&source);
 
 	char buffer[99] = "";
 	assert_string_equal( "110 1010 1100 1011 1001 0011 0010 0011",

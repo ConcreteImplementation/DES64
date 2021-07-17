@@ -12,7 +12,8 @@ void _initial_permutation(uint64_t* source, size_t length);
 void _final_permutation(uint64_t* source, size_t length);
 
 uint64_t _expansion(uint64_t block);
-
-void _permutation32bits(uint32_t* source);
+int _find_substitution(int boxNumber, const int block6bits);
+uint32_t _substitution(uint64_t source);
+void _primitive(uint32_t* source);
 
 #endif

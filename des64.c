@@ -10,8 +10,8 @@
 
 
 
-void _permutation(uint64_t* source, size_t length, const short* table) {
-	while(length--) {
+void _permutation(uint64_t* source, size_t numberOfBlocks, const short* table) {
+	while(numberOfBlocks--) {
 		uint64_t destination = 0;
 
 		DES64_DO_PERMUTATION(*source, destination, table, 64);
@@ -21,12 +21,12 @@ void _permutation(uint64_t* source, size_t length, const short* table) {
 	}
 }
 
-void _initial_permutation(uint64_t* source, size_t length) {
-	_permutation(source, length, IP);
+void _initial_permutation(uint64_t* source, size_t numberOfBlocks) {
+	_permutation(source, numberOfBlocks, IP);
 }
 
-void _final_permutation(uint64_t* source, size_t length) {
-	_permutation(source, length, FP);
+void _final_permutation(uint64_t* source, size_t numberOfBlocks) {
+	_permutation(source, numberOfBlocks, FP);
 }
 
 
@@ -39,24 +39,39 @@ uint64_t _expansion(uint64_t block) {
 	return right;
 }
 
-// _substitution()
-
-void _permutation32bits(uint32_t* source) {
+int _find_substitution(int boxNumber, const int block6bits) {
+	int i = ( (block6bits & 0x20) >> 4 )  |  (block6bits & 0x1);
+	int j = (block6bits & 0x1E) >> 1;
+	return SBOX[boxNumber][i][j];
+}
+uint32_t _substitution(uint64_t source) {
 	uint32_t destination = 0;
 
-	DES64_DO_PERMUTATION(*source, destination, P32, 32);
+	for(int boxNumber = 0; boxNumber < 8 ; boxNumber++) {
+		uint32_t substitution = _find_substitution(boxNumber, source);
+		destination |= substitution  <<  (boxNumber * 4);
+		source >>= 6;
+	}
+
+	return destination;
+}
+
+void _primitive(uint32_t* source) {
+	uint32_t destination = 0;
+
+	DES64_DO_PERMUTATION(*source, destination, P, 32);
 
 	*source = destination;
 }
 
 
-void _cipher_function(uint64_t* source, size_t textSize, keyschedule_t* keySchedule) {
-	while( textSize-- ) {
+void _cipher_function(uint64_t* source, size_t numberOfBlocks, keyschedule_t* keySchedule) {
+	while( numberOfBlocks-- ) {
 		uint64_t right48bit = _expansion(*source);
 		right48bit ^= keySchedule->key;
 
-		// uint32_t right32bits _substitution(R);
-		// _permution32bits(&right32bits);
+		// uint32_t right32bits = _substitution(right48bit);
+		// _primitive(&right32bits);
 
 		//*source =  (uint64_t)right32bits << 32 | *source >> 32;
 		source++;
@@ -67,15 +82,18 @@ void des_encrypt(uint64_t* plainText, size_t textSize, uint64_t key) {
 	// if(textSize % 8 != 0)
 	// 	make_padding(plainText, &textSize);
 	
-	
+	size_t numberOfBlocks = textSize / 8;
+
+
 	keyschedule_t keyschedule[DES64_NUMBER_OF_ROUNDS];
 	make_keyschedule(key, keyschedule);
 
-	_initial_permutation(plainText, textSize);
+
+	_initial_permutation(plainText, numberOfBlocks);
 
 	// for(int i = 0; i < DES64_NUMBER_OF_ROUNDS; i++) {
 	// _cipher_function(...);
 	//}
 
-	_final_permutation(plainText, textSize);
+	_final_permutation(plainText, numberOfBlocks);
 }

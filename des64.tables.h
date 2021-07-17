@@ -98,7 +98,7 @@ const short SBOX[8][4][16] = {
 	}
 };
 
-const short P32[32] = {
+const short P[32] = {
 	16,  7, 20, 21,
 	29, 12, 28, 17,
 	 1, 15, 23, 26,

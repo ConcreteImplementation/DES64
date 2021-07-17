@@ -25,7 +25,9 @@ int main(int argc, char** argv){
 		cmocka_unit_test(final_permutation),
 		cmocka_unit_test(permutation_back_and_forth),
 		cmocka_unit_test(expansion),
-		cmocka_unit_test(permutation32bits)
+		cmocka_unit_test(find_substitution),
+		cmocka_unit_test(substitution),
+		cmocka_unit_test(primitive)
 	};
 
 
