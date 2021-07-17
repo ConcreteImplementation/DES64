@@ -49,3 +49,14 @@ void expansion(void** state){
 		bin_itoa_pretty( expanded, buffer, sizeof(buffer) )
 	);
 }
+
+void permutation32bits(void** state){
+	uint32_t source =  0xFFFF;
+
+	_permutation32bits(&source);
+
+	char buffer[99] = "";
+	assert_string_equal( "110 1010 1100 1011 1001 0011 0010 0011",
+		bin_itoa_pretty( source, buffer, sizeof(buffer) )
+	);
+}

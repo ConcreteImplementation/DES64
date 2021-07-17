@@ -40,18 +40,25 @@ uint64_t _expansion(uint64_t block) {
 }
 
 // _substitution()
-// _permutation32bits()
+
+void _permutation32bits(uint32_t* source) {
+	uint32_t destination = 0;
+
+	DES64_DO_PERMUTATION(*source, destination, P32, 32);
+
+	*source = destination;
+}
 
 
 void _cipher_function(uint64_t* source, size_t textSize, keyschedule_t* keySchedule) {
 	while( textSize-- ) {
-		uint64_t right = _expansion(*source);
-		right ^= keySchedule->key;
+		uint64_t right48bit = _expansion(*source);
+		right48bit ^= keySchedule->key;
 
-		// uint32_t r _substitution(R);
-		// _permution32bits(r);
+		// uint32_t right32bits _substitution(R);
+		// _permution32bits(&right32bits);
 
-		*source =  (uint64_t)right << 32 | *source >> 32;
+		//*source =  (uint64_t)right32bits << 32 | *source >> 32;
 		source++;
 	}
 }

@@ -13,4 +13,6 @@ void _final_permutation(uint64_t* source, size_t length);
 
 uint64_t _expansion(uint64_t block);
 
+void _permutation32bits(uint32_t* source);
+
 #endif
