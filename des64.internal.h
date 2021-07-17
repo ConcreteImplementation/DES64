@@ -4,9 +4,13 @@
 #include <stdio.h>
 #include <stdint.h>
 
-uint64_t _initial_permutation(uint64_t* source, size_t length);
-uint64_t _final_permutation(uint64_t* source, size_t length);
+typedef struct {
+	uint64_t right:48;
+} block_t;
 
+void _initial_permutation(uint64_t* source, size_t length);
+void _final_permutation(uint64_t* source, size_t length);
 
+uint64_t _expansion(uint64_t block);
 
 #endif

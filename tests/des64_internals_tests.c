@@ -36,3 +36,16 @@ void permutation_back_and_forth(void** state){
 
 	assert_int_equal(sourceOriginal, sourceWork);
 }
+
+
+
+void expansion(void** state){
+	uint64_t source =  0xFFFF;
+
+	uint64_t expanded = _expansion(source);
+
+	char buffer[99] = "";
+	assert_string_equal( "1000 0000 0000 0000 0000 0001 0111 1111 1111 1111 1111 1110",
+		bin_itoa_pretty( expanded, buffer, sizeof(buffer) )
+	);
+}

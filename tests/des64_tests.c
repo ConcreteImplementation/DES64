@@ -23,7 +23,8 @@ int main(int argc, char** argv){
 	const struct CMUnitTest internals[] = {
 		cmocka_unit_test(initial_permutation),
 		cmocka_unit_test(final_permutation),
-		cmocka_unit_test(permutation_back_and_forth)
+		cmocka_unit_test(permutation_back_and_forth),
+		cmocka_unit_test(expansion)
 	};
 
 
