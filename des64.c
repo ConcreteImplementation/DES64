@@ -12,7 +12,7 @@
 
 
 void _permutation(uint64_t* source, size_t numberOfBlocks, const short* table) {
-	while(numberOfBlocks--) {
+	 while(numberOfBlocks--) {
 		uint64_t destination = 0;
 
 		DES64_DO_PERMUTATION(*source, destination, table, 64);
@@ -77,36 +77,68 @@ void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key) {
 
 		_primitive(&right32bits);
 
-		*source =  (uint64_t)right32bits << 32 | *source >> 32;
+		right32bits ^= *source >> 32;
 		
+		*source = (uint64_t)right32bits << 32 | *source & 0xFFFFFFFF;
+
 		source++;
 	}
 
 }
 
 
+void _swap(uint64_t* source, size_t numberOfBlocks) {
+	while( numberOfBlocks-- ) {
+		*source = *source << 32 | *source >> 32;
+		source++;
+	}
+}
 
 
-void des_encrypt(void* plainText, size_t textSize, uint64_t key) {
+
+void des64_encrypt(void* plainText, size_t textSize, keyschedule_t* keyschedule) {
 	// if(0 >= DES64_NUMBER_OF_ROUNDS || DES64_NUMBER_OF_ROUNDS > 16) {
-	// 	printf(stderr, "Incorrect DES64_NUMBER_OF_ROUNDS: %d\n", DES64_NUMBER_OF_ROUNDS);
+	// 	fprintf(stderr, "Error: DES64_NUMBER_OF_ROUNDS == %d\n", DES64_NUMBER_OF_ROUNDS);
 	// 	return;
 	// }
 	
 	// if(textSize % 8 != 0)
-	// 	_make_padded_blocks(&plainText, &textSize);
-	size_t numberOfBlocks = textSize / DES64_BLOCK_SIZE;
+	// 	return; // Incorrect padding
 
-	
-	// keyschedule_t keyschedule[DES64_NUMBER_OF_ROUNDS];
-	// make_keyschedule(key, keyschedule);
+	size_t numberOfBlocks = textSize / DES64_BLOCK_SIZE;
 
 
 	_initial_permutation(plainText, numberOfBlocks);
 
-	// for(int i = 0; i < DES64_NUMBER_OF_ROUNDS; i++) {
-	// 	_cipher_function(plainText, textSize, keyschedule+i);
-	//}
+	for(int i = 0; i < DES64_NUMBER_OF_ROUNDS-1 ; i++) {
+		_cipher_function(plainText, numberOfBlocks, keyschedule->key[i]);
+		_swap(plainText, numberOfBlocks);
+	}
+	_cipher_function(plainText, numberOfBlocks, keyschedule->key[DES64_NUMBER_OF_ROUNDS-1]);
+
+	_final_permutation(plainText, numberOfBlocks);
+}
+
+
+
+void des64_decrypt(void* plainText, size_t textSize, keyschedule_t* keyschedule) {
+	// if(0 >= DES64_NUMBER_OF_ROUNDS || DES64_NUMBER_OF_ROUNDS > 16) {
+	// 	printf(stderr, "Error: DES64_NUMBER_OF_ROUNDS == %d\n", DES64_NUMBER_OF_ROUNDS);
+	// 	return;
+	// }
+	
+	// if(textSize % 8 != 0)
+	// 	return; // Incorrect padding
+
+	size_t numberOfBlocks = textSize / DES64_BLOCK_SIZE;
+
+	_initial_permutation(plainText, numberOfBlocks);
+
+	for(int i = DES64_NUMBER_OF_ROUNDS-1; i > 0; i--) {
+		_cipher_function(plainText, numberOfBlocks, keyschedule->key[i]);
+		_swap(plainText, numberOfBlocks);
+	}
+	_cipher_function(plainText, numberOfBlocks, keyschedule->key[0]);
 
 	_final_permutation(plainText, numberOfBlocks);
 }

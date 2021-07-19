@@ -3,9 +3,9 @@
 
 
 #include <stdio.h>
-#include <stdint.h>
+#include "des64_keyschedule.h"
 
-void des_encrypt(uint64_t* plainText, size_t textSize, uint64_t key);
-
+void des64_encrypt(void* plainText, size_t textSize, keyschedule_t* keyschedule);
+void des64_decrypt(void* plainText, size_t textSize, keyschedule_t* keyschedule);
 
 #endif

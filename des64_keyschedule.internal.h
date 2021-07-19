@@ -6,7 +6,7 @@
 
 
 typedef struct keyschedule_t {
-	uint64_t key[DES64_BLOCK_SIZE];
+	uint64_t key[DES64_NUMBER_OF_ROUNDS];
 } keyschedule_t;
 
 
