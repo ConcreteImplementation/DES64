@@ -4,12 +4,14 @@
 
 #include <stdint.h>
 
-typedef struct {
-	uint64_t key:48;
-} keyschedule_t;
+// typedef struct {
+// 	uint64_t key:48;
+// } keyschedule_t;
 
 
-void make_keyschedule(uint64_t key, keyschedule_t* outKeySchedule);
+typedef struct keyschedule_t keyschedule_t;
+
+keyschedule_t* des64_new_keyschedule(uint64_t key);
 
 
 #endif

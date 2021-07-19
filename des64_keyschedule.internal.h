@@ -5,6 +5,11 @@
 #include "des64_keyschedule.h"
 
 
+typedef struct keyschedule_t {
+	uint64_t key[DES64_BLOCK_SIZE];
+} keyschedule_t;
+
+
 typedef	union {
 	uint64_t block:56;
 
@@ -20,7 +25,7 @@ PRIVATE
 keyblock_t _keyschedule_permuted_choice_1(uint64_t key) ;
 
 PRIVATE
-keyschedule_t _keyschedule_permuted_choice_2(keyblock_t keyBlock) ;
+uint64_t _keyschedule_permuted_choice_2(keyblock_t keyBlock) ;
 
 
 

@@ -37,14 +37,14 @@
 // Precomputed bitmasks
 const uint64_t MASKS[64];
 
-
+#define DES64_BLOCK_SIZE 8
 
 #define DES64_IS_BIT_SET(source, table, index) \
 	( source  &  MASKS[ table[index] -1 ] )
 
 #define DES64_DO_PERMUTATION(source, destination, table, iterations) \
-	for(int i = 0; i < iterations; i++)                        \
-		if( DES64_IS_BIT_SET(source, table, i) )               \
+	for(int i = 0; i < iterations; i++)          \
+		if( DES64_IS_BIT_SET(source, table, i) ) \
 			destination |= MASKS[i]; 
 			
 

@@ -65,34 +65,41 @@ void _primitive(uint32_t* source) {
 }
 
 
-void _cipher_function(uint64_t* source, size_t numberOfBlocks, keyschedule_t* keySchedule) {
-	while( numberOfBlocks-- ) {
-		uint64_t right48bit = _expansion(*source);
-		right48bit ^= keySchedule->key;
+// void _cipher_function(uint64_t* source, size_t numberOfBlocks, keyschedule_t keySchedule) {
+// 	while( numberOfBlocks-- ) {
+// 		uint64_t right48bit = _expansion(*source);
+// 		right48bit ^= keySchedule.key;
 
-		// uint32_t right32bits = _substitution(right48bit);
-		// _primitive(&right32bits);
+// 		uint32_t right32bits = _substitution(right48bit);
+// 		_primitive(&right32bits);
 
-		//*source =  (uint64_t)right32bits << 32 | *source >> 32;
-		source++;
-	}
-}
+// 		*source =  (uint64_t)right32bits << 32 | *source >> 32;
+// 		source++;
+// 	}
+// }
 
-void des_encrypt(uint64_t* plainText, size_t textSize, uint64_t key) {
-	// if(textSize % 8 != 0)
-	// 	make_padding(plainText, &textSize);
+
+
+
+void des_encrypt(void* plainText, size_t textSize, uint64_t key) {
+	// if(0 >= DES64_NUMBER_OF_ROUNDS || DES64_NUMBER_OF_ROUNDS > 16) {
+	// 	printf(stderr, "Incorrect DES64_NUMBER_OF_ROUNDS: %d\n", DES64_NUMBER_OF_ROUNDS);
+	// 	return;
+	// }
 	
-	size_t numberOfBlocks = textSize / 8;
+	// if(textSize % 8 != 0)
+	// 	_make_padded_blocks(&plainText, &textSize);
+	size_t numberOfBlocks = textSize / DES64_BLOCK_SIZE;
 
-
-	keyschedule_t keyschedule[DES64_NUMBER_OF_ROUNDS];
-	make_keyschedule(key, keyschedule);
+	
+	// keyschedule_t keyschedule[DES64_NUMBER_OF_ROUNDS];
+	// make_keyschedule(key, keyschedule);
 
 
 	_initial_permutation(plainText, numberOfBlocks);
 
 	// for(int i = 0; i < DES64_NUMBER_OF_ROUNDS; i++) {
-	// _cipher_function(...);
+	// 	_cipher_function(plainText, textSize, keyschedule+i);
 	//}
 
 	_final_permutation(plainText, numberOfBlocks);
