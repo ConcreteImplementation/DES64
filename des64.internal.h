@@ -16,4 +16,6 @@ int _find_substitution(int boxNumber, const int block6bits);
 uint32_t _substitution(uint64_t source);
 void _primitive(uint32_t* source);
 
+void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key);
+
 #endif

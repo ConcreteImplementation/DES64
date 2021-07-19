@@ -27,7 +27,8 @@ int main(int argc, char** argv){
 		cmocka_unit_test(expansion),
 		cmocka_unit_test(find_substitution),
 		cmocka_unit_test(substitution),
-		cmocka_unit_test(primitive)
+		cmocka_unit_test(primitive),
+		cmocka_unit_test(cipher_function)
 	};
 
 

@@ -40,7 +40,7 @@ void permutation_back_and_forth(void** state){
 
 
 void expansion(void** state){
-	uint64_t source =  0xFFFF;
+	uint64_t source = 0xFFFF;
 
 	uint64_t expanded = _expansion(source);
 
@@ -53,7 +53,7 @@ void expansion(void** state){
 
 
 void find_substitution(void** state){
-	uint32_t source =  0;
+	uint32_t source = 0;
 	uint32_t destination = 0;
 
 	source =  0x1B; //011011
@@ -70,7 +70,7 @@ void find_substitution(void** state){
 }
 
 void substitution(void** state){
-	uint64_t source =  0x0F0F0F0F0F0F;
+	uint64_t source = 0x0F0F0F0F0F0F;
 	// 000011 110000 111100 001111 000011 110000 111100 001111
 	// 8 1 1  7 2 8  6 2 14 5 1 7  4 1 1  3 2 8  2 2 14 1 1 7
 	// 15     10     11     1      8      11     2      1
@@ -85,7 +85,7 @@ void substitution(void** state){
 
 
 void primitive(void** state){
-	uint32_t source =  0xFFFF;
+	uint32_t source = 0xFFFF;
 
 	_primitive(&source);
 
@@ -94,3 +94,47 @@ void primitive(void** state){
 		bin_itoa_pretty( source, buffer, sizeof(buffer) )
 	);
 }
+
+
+
+void cipher_function(void** state) {
+	uint64_t source = 0xA;
+	uint64_t key = 0x1;
+
+	_cipher_function(&source, 1, key);
+
+	char buffer[99] = "";
+	assert_string_equal( "100 1010 0111 1100 1111 0110 0011 0000 0000 0000 0000 0000 0000 0000 0000 0000",
+		bin_itoa_pretty( source, buffer, sizeof(buffer) )
+	);
+}
+/*
+source
+1010
+
+expansion
+101 0100
+
+XOR with key 0x1
+101 0101
+
+substitution
+000000 000000 000000 000000 000000 000000 000001 010101
+8 0 0  7 0 0  6 0 0  5 0 0  4 0 0  3 0 0  2 1 0  1 1 10
+13     4      12     2      7      10     3      6
+1101   0100   1100   0010   0111   1010   0011   1100
+
+primitive
+11010100110000100111101000111100
+33322222222221111111111000000000
+21098765432109876543210987654321
+
+01001010011111001111011000110000
+
+swap
+01001010011111001111011000110000 00000000000000000000000000000000
+
+expected:
+0100 1010 0111 1100 1111 0110 0011 0000 0000 0000 0000 0000 0000 0000 0000 0000
+
+*/

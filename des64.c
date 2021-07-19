@@ -7,6 +7,7 @@
 #include "des64.internal.h"
 
 #include "des64_keyschedule.h"
+#include "des64_keyschedule.internal.h"
 
 
 
@@ -65,18 +66,23 @@ void _primitive(uint32_t* source) {
 }
 
 
-// void _cipher_function(uint64_t* source, size_t numberOfBlocks, keyschedule_t keySchedule) {
-// 	while( numberOfBlocks-- ) {
-// 		uint64_t right48bit = _expansion(*source);
-// 		right48bit ^= keySchedule.key;
+void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key) {
+	
+	while( numberOfBlocks-- ) {
+		uint64_t right48bit = _expansion(*source);
+		
+		right48bit ^= key;
 
-// 		uint32_t right32bits = _substitution(right48bit);
-// 		_primitive(&right32bits);
+		uint32_t right32bits = _substitution(right48bit);
 
-// 		*source =  (uint64_t)right32bits << 32 | *source >> 32;
-// 		source++;
-// 	}
-// }
+		_primitive(&right32bits);
+
+		*source =  (uint64_t)right32bits << 32 | *source >> 32;
+		
+		source++;
+	}
+
+}
 
 
 
