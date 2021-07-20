@@ -1,8 +1,7 @@
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 
-
-// #include <stdio.h> //	to take out ?
 
 #include "binary_utility.h"
 
@@ -69,7 +68,7 @@ ERRBIN_T bin_string_prettyspace(char* bufin, char* bufout, long bufoutsize, int 
 }
 
 
-#include <stdio.h>
+
 char* bin_itoa_pretty(uint64_t number, char* buffer, long bufferSize) {
 	char bufferTemp[80];
 
@@ -86,11 +85,4 @@ char* bin_itoa_pretty(uint64_t number, char* buffer, long bufferSize) {
 	}
 
 	return bin_getptr_skipleadingzeros(buffer);
-}
-
-
-// return error code
-int bin2dec(char* ptr, void* ret, long typesize)
-{
-
 }

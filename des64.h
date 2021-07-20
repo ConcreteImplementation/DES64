@@ -3,6 +3,7 @@
 
 
 #include <stdio.h>
+#include <stdint.h>
 
 
 typedef struct des64_context des64_context;
