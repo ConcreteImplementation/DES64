@@ -4,14 +4,18 @@
 
 #include <stdint.h>
 
-// typedef struct {
-// 	uint64_t key:48;
-// } keyschedule_t;
+#include "des64_global_defines.h"
 
 
-typedef struct keyschedule_t keyschedule_t;
 
-keyschedule_t* des64_new_keyschedule(uint64_t key);
+typedef struct keyschedule_t {
+	uint64_t key[DES64_NUMBER_OF_ROUNDS];
+} keyschedule_t;
+
+
+keyschedule_t build_keyschedule(uint64_t key);
+keyschedule_t invert_keyschedule(keyschedule_t keyschedule);
+
 
 
 #endif

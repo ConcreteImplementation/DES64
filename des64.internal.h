@@ -4,9 +4,21 @@
 #include <stdio.h>
 #include <stdint.h>
 
-typedef struct {
-	uint64_t right:48;
-} block_t;
+
+#include "des64_keyschedule.h"
+
+
+typedef enum State {
+	ENCIPHER,
+	DECIPHER
+} State;
+
+typedef struct des64_context {
+	keyschedule_t keyschedule;
+	State state;
+} des64_context;
+
+
 
 void _initial_permutation(uint64_t* source, size_t length);
 void _final_permutation(uint64_t* source, size_t length);
@@ -16,6 +28,7 @@ int _find_substitution(int boxNumber, const int block6bits);
 uint32_t _substitution(uint64_t source);
 void _primitive(uint32_t* source);
 
+void _swap(uint64_t* source, size_t numberOfBlocks);
 void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key);
 
 #endif

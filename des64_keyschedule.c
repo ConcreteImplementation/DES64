@@ -35,15 +35,29 @@ uint64_t _keyschedule_permuted_choice_2(keyblock_t keyBlock) {
 	return key;
 }
 
+
+
+
 PUBLIC
-keyschedule_t* des64_new_keyschedule(uint64_t key) {
-	keyschedule_t* keyschedule = malloc(sizeof(keyschedule_t));
+keyschedule_t invert_keyschedule(keyschedule_t keyschedule) {
+	keyschedule_t invertedKeyschedule;
+
+	for(int i = 0; i < DES64_NUMBER_OF_ROUNDS ; i++)
+		invertedKeyschedule.key[DES64_NUMBER_OF_ROUNDS - 1 - i] = keyschedule.key[i];
+
+	return invertedKeyschedule;
+}
+
+
+PUBLIC
+keyschedule_t build_keyschedule(uint64_t key) {
+	keyschedule_t keyschedule;
 
 	keyblock_t keyBlock = _keyschedule_permuted_choice_1(key);
 
 	for (int i = 0; i < DES64_NUMBER_OF_ROUNDS; i++) {
 		KEYSCHEDULE_LEFT_SHIFT(keyBlock, i);
-		keyschedule->key[i] = _keyschedule_permuted_choice_2(keyBlock);
+		keyschedule.key[i] = _keyschedule_permuted_choice_2(keyBlock);
 	}
 	
 	return keyschedule;

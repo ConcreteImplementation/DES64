@@ -1,13 +1,70 @@
 #include <stdio.h>
 #include <stdint.h>
-
+#include <stdlib.h>
 
 #include "des64_global_defines.h"
 #include "des64.tables.h"
 #include "des64.internal.h"
 
 #include "des64_keyschedule.h"
-#include "des64_keyschedule.internal.h"
+
+
+
+
+
+
+PUBLIC
+des64_context* des64_new_context(uint64_t key){
+	des64_context* context = malloc(sizeof(des64_context));
+	if(NULL == context)
+		return NULL;
+	
+	context->keyschedule = build_keyschedule(key);
+	context->state = ENCIPHER;
+
+	return context;
+}
+
+PUBLIC
+void des64_set_to_encipher(des64_context* context) {
+	if(context->state == ENCIPHER)
+		return;
+	context->keyschedule = invert_keyschedule(context->keyschedule);
+	context->state = ENCIPHER;
+}
+
+PUBLIC
+void des64_set_to_decipher(des64_context* context) {
+	if(context->state == DECIPHER)
+		return;
+	context->keyschedule = invert_keyschedule(context->keyschedule);
+	context->state = DECIPHER;
+}
+
+PUBLIC
+int des64_enciphering_computation(void* plainText, size_t textSize, des64_context* context) {
+
+	if(textSize % 8 != 0)
+		return 1; // Incorrect padding
+
+	size_t numberOfBlocks = textSize / DES64_BLOCK_SIZE;
+	keyschedule_t keyschedule = context->keyschedule;
+
+	_initial_permutation(plainText, numberOfBlocks);
+
+	for(int i = 0; i < DES64_NUMBER_OF_ROUNDS-1 ; i++) {
+		_cipher_function(plainText, numberOfBlocks, keyschedule.key[i]);
+		_swap(plainText, numberOfBlocks);
+	}
+	_cipher_function(plainText, numberOfBlocks, keyschedule.key[DES64_NUMBER_OF_ROUNDS-1]);
+
+	_final_permutation(plainText, numberOfBlocks);
+
+	return 0;
+}
+
+
+
 
 
 
@@ -40,6 +97,8 @@ uint64_t _expansion(uint64_t block) {
 	return right;
 }
 
+
+
 int _find_substitution(int boxNumber, const int block6bits) {
 	int i = ( (block6bits & 0x20) >> 4 )  |  (block6bits & 0x1);
 	int j = (block6bits & 0x1E) >> 1;
@@ -57,6 +116,8 @@ uint32_t _substitution(uint64_t source) {
 	return destination;
 }
 
+
+
 void _primitive(uint32_t* source) {
 	uint32_t destination = 0;
 
@@ -64,6 +125,7 @@ void _primitive(uint32_t* source) {
 
 	*source = destination;
 }
+
 
 
 void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key) {
@@ -87,58 +149,10 @@ void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key) {
 }
 
 
+
 void _swap(uint64_t* source, size_t numberOfBlocks) {
 	while( numberOfBlocks-- ) {
 		*source = *source << 32 | *source >> 32;
 		source++;
 	}
-}
-
-
-
-void des64_encrypt(void* plainText, size_t textSize, keyschedule_t* keyschedule) {
-	// if(0 >= DES64_NUMBER_OF_ROUNDS || DES64_NUMBER_OF_ROUNDS > 16) {
-	// 	fprintf(stderr, "Error: DES64_NUMBER_OF_ROUNDS == %d\n", DES64_NUMBER_OF_ROUNDS);
-	// 	return;
-	// }
-	
-	// if(textSize % 8 != 0)
-	// 	return; // Incorrect padding
-
-	size_t numberOfBlocks = textSize / DES64_BLOCK_SIZE;
-
-
-	_initial_permutation(plainText, numberOfBlocks);
-
-	for(int i = 0; i < DES64_NUMBER_OF_ROUNDS-1 ; i++) {
-		_cipher_function(plainText, numberOfBlocks, keyschedule->key[i]);
-		_swap(plainText, numberOfBlocks);
-	}
-	_cipher_function(plainText, numberOfBlocks, keyschedule->key[DES64_NUMBER_OF_ROUNDS-1]);
-
-	_final_permutation(plainText, numberOfBlocks);
-}
-
-
-
-void des64_decrypt(void* plainText, size_t textSize, keyschedule_t* keyschedule) {
-	// if(0 >= DES64_NUMBER_OF_ROUNDS || DES64_NUMBER_OF_ROUNDS > 16) {
-	// 	printf(stderr, "Error: DES64_NUMBER_OF_ROUNDS == %d\n", DES64_NUMBER_OF_ROUNDS);
-	// 	return;
-	// }
-	
-	// if(textSize % 8 != 0)
-	// 	return; // Incorrect padding
-
-	size_t numberOfBlocks = textSize / DES64_BLOCK_SIZE;
-
-	_initial_permutation(plainText, numberOfBlocks);
-
-	for(int i = DES64_NUMBER_OF_ROUNDS-1; i > 0; i--) {
-		_cipher_function(plainText, numberOfBlocks, keyschedule->key[i]);
-		_swap(plainText, numberOfBlocks);
-	}
-	_cipher_function(plainText, numberOfBlocks, keyschedule->key[0]);
-
-	_final_permutation(plainText, numberOfBlocks);
 }

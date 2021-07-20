@@ -3,9 +3,13 @@
 
 
 #include <stdio.h>
-#include "des64_keyschedule.h"
 
-void des64_encrypt(void* plainText, size_t textSize, keyschedule_t* keyschedule);
-void des64_decrypt(void* plainText, size_t textSize, keyschedule_t* keyschedule);
+
+typedef struct des64_context des64_context;
+
+des64_context* des64_new_context(uint64_t key);
+void des64_set_to_encipher(des64_context* context);
+void des64_set_to_decipher(des64_context* context);
+void des64_enciphering_computation(void* plainText, size_t textSize, des64_context* context);
 
 #endif

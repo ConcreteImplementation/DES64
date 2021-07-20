@@ -51,7 +51,6 @@ void keyschedule_permuted_choice_2_2(void** state){
 
 
 	char buffer[99] = "";
-	// uint64_t keyScheduleBlock = keySchedule.key;
 	
 	assert_string_equal("1110 1001 0101 0100 1100 1101 1100 1110 1100 1011 0111 0101",
 		bin_itoa_pretty( key, buffer, sizeof(buffer) )
@@ -60,19 +59,17 @@ void keyschedule_permuted_choice_2_2(void** state){
 
 
 
-void keyschedule_make_keyschedule(void** state){
+void keyschedule_build_keyschedule(void** state){
 	uint64_t key = 0xFFFFFFFF;
 
-	keyschedule_t* keySchedule = des64_new_keyschedule(key);
+	keyschedule_t keySchedule = build_keyschedule(key);
 
 
 	char buffer[99] = "";
 	
 	assert_string_equal("111 1011 1001 0011 0010 1010 0000 1110 0001 0011 0000 1011",
-		bin_itoa_pretty( keySchedule->key[0], buffer, sizeof(buffer) )
+		bin_itoa_pretty( keySchedule.key[0], buffer, sizeof(buffer) )
 	);
-
-	free(keySchedule);
 }
 
 /*
