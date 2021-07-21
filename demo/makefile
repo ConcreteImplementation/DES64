@@ -1,9 +1,9 @@
 VPATH = ../
 objects = des64_global_definitions.o des64_keyschedule.o des64.o
-
+CC = gcc
 
 demo.out : libdes64.a des64.h
-	gcc demo.c -L./ -ldes64 -o demo.out 
+	$(CC) demo.c -L./ -ldes64 -o demo.out 
 	valgrind ./demo.out
 
 
