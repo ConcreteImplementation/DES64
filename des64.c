@@ -111,9 +111,9 @@ PRIVATE
 uint32_t _substitution(uint64_t source) {
 	uint32_t destination = 0;
 
-	for(int boxNumber = 0; boxNumber < 8 ; boxNumber++) {
+	for(int boxNumber = 7; boxNumber >= 0 ; boxNumber--) {
 		uint32_t substitution = _find_substitution(boxNumber, source);
-		destination |= substitution  <<  (boxNumber * 4);
+		destination |= substitution  <<  ( (7-boxNumber) * 4);
 		source >>= 6;
 	}
 
@@ -132,7 +132,7 @@ void _primitive(uint32_t* source) {
 }
 
 
-
+#include "tests/binary_utility/binary_utility.h"
 PRIVATE
 void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key) {
 	
@@ -142,7 +142,7 @@ void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key) {
 		right48bit ^= key;
 
 		uint32_t right32bits = _substitution(right48bit);
-
+		
 		_primitive(&right32bits);
 
 		right32bits ^= *source >> 32;
