@@ -5,14 +5,9 @@
 
 
 
-typedef	union {
-	uint64_t block:56;
-
-	struct {
-		uint32_t C:28;
-		uint32_t D:28;
-	} blocks;
-	
+typedef	struct {
+	uint32_t C:28;
+	uint32_t D:28;
 } keyblock_t;
 
 

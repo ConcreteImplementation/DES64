@@ -10,15 +10,15 @@ void permuted_choice_1(void** state){
 
 
 	char buffer[99] = "";
-
-	uint32_t blockD = keyBlock.blocks.D;
-	assert_string_equal("1111 1111 0000 1111 0000 1111 0000",
-		bin_itobin_pretty( blockD, buffer, sizeof(buffer) )
-	);
 	
-	uint32_t blockC = keyBlock.blocks.C;
-	assert_string_equal("1111 0000 1111 0000 1111 0000",
+	uint32_t blockC = keyBlock.C;
+	assert_string_equal("1111 1111 0000 1111 0000 1111 0000",
 		bin_itobin_pretty( blockC, buffer, sizeof(buffer) )
+	);
+
+	uint32_t blockD = keyBlock.D;
+	assert_string_equal("1111 0000 1111 0000 1111 0000",
+		bin_itobin_pretty( blockD, buffer, sizeof(buffer) )
 	);
 }
 
@@ -26,8 +26,8 @@ void permuted_choice_1(void** state){
 
 void permuted_choice_2_A(void** state){
 	keyblock_t keyBlock;
-	keyBlock.blocks.C = 0xFFFFFFF;
-	keyBlock.blocks.D = 0x0;
+	keyBlock.C = 0x0;
+	keyBlock.D = 0xFFFFFFF;
 
 
 	uint64_t key = _permuted_choice_2(keyBlock);
@@ -45,8 +45,8 @@ void permuted_choice_2_A(void** state){
 
 void permuted_choice_2_B(void** state){
 	keyblock_t keyBlock;
-	keyBlock.blocks.C = 0xFFFF;
-	keyBlock.blocks.D = 0xFFFF;
+	keyBlock.C = 0xFFFF;
+	keyBlock.D = 0xFFFF;
 
 
 	uint64_t key  = _permuted_choice_2(keyBlock);
@@ -76,15 +76,15 @@ void build(void** state){
 
 /*
 
-D: 1111 1111 0000 1111 0000 1111 0000
-C: 0000 1111 0000 1111 0000 1111 0000
+C: 1111 1111 0000 1111 0000 1111 0000
+D: 0000 1111 0000 1111 0000 1111 0000
 
 
 LS
-D: 1111 1110 0001 1110 0001 1110 0001
-C: 0001 1110 0001 1110 0001 1110 0000
+C: 1111 1110 0001 1110 0001 1110 0001
+D: 0001 1110 0001 1110 0001 1110 0000
 
-DC
+CD
 1111 1110 0001 1110 0001 1110 0001    0001 1110 0001 1110 0001 1110 0000
         11111110000111100001111000010001111000011110000111100000
 6666655555555554444444444333333333322222222221111111111000000000

@@ -7,8 +7,8 @@
 #define ROTATE_LEFT_28_BITS(n, shift)  ( n =  n<<shift  |  n>>(28-shift) )
 
 #define KEY_BLOCKS_LEFT_SHIFT(keyBlock, shift)         \
-	ROTATE_LEFT_28_BITS(keyBlock.blocks.C, KEYSCHEDULE_LEFT_SHIFT_TABLE[shift]);  \
-	ROTATE_LEFT_28_BITS(keyBlock.blocks.D, KEYSCHEDULE_LEFT_SHIFT_TABLE[shift]);
+	ROTATE_LEFT_28_BITS(keyBlock.C, KEYSCHEDULE_LEFT_SHIFT_TABLE[shift]);  \
+	ROTATE_LEFT_28_BITS(keyBlock.D, KEYSCHEDULE_LEFT_SHIFT_TABLE[shift]);
 
 
 
@@ -46,12 +46,13 @@ keyschedule_t invert_keyschedule(keyschedule_t keyschedule) {
 
 PRIVATE
 keyblock_t _permuted_choice_1(uint64_t key) {
+	uint64_t block = 0;
+
+	DES64_DO_PERMUTATION(key, block, PERMUTED_CHOICE_1_TABLE, 56);
+
 	keyblock_t keyBlock;
-	keyBlock.block = 0;
-
-	DES64_DO_PERMUTATION(key, keyBlock.block, PERMUTED_CHOICE_1_TABLE, 56);
-
-	keyBlock.blocks.D = keyBlock.block >> 28;
+	keyBlock.C = block >> 28;
+	keyBlock.D = block & 0xFFFFFFF;
 
 	return keyBlock;
 }
@@ -60,7 +61,7 @@ PRIVATE
 uint64_t _permuted_choice_2(keyblock_t keyBlock) {
 	uint64_t key = 0;
 
-	uint64_t block = (uint64_t)keyBlock.blocks.D << 28 | keyBlock.blocks.C;
+	uint64_t block = (uint64_t)keyBlock.C << 28 | keyBlock.D;
 	
 	DES64_DO_PERMUTATION(block, key, PERMUTED_CHOICE_2_TABLE, 48);
 
