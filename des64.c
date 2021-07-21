@@ -2,14 +2,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "des64_global_defines.h"
-#include "des64.tables.h"
+
+#include "des64_global_definitions.h"
 #include "des64.internal.h"
-
-#include "des64_keyschedule.h"
-
-
-
 
 
 
@@ -43,12 +38,13 @@ void des64_set_to_decipher(des64_context* context) {
 
 PUBLIC
 int des64_enciphering_computation(void* plainText, size_t textSize, des64_context* context) {
-
 	if(textSize % 8 != 0)
 		return 1; // Incorrect padding
 
 	size_t numberOfBlocks = textSize / DES64_BLOCK_SIZE;
 	keyschedule_t keyschedule = context->keyschedule;
+
+
 
 	_initial_permutation(plainText, numberOfBlocks);
 
@@ -60,6 +56,8 @@ int des64_enciphering_computation(void* plainText, size_t textSize, des64_contex
 
 	_final_permutation(plainText, numberOfBlocks);
 
+
+
 	return 0;
 }
 
@@ -68,6 +66,7 @@ int des64_enciphering_computation(void* plainText, size_t textSize, des64_contex
 
 
 
+PRIVATE
 void _permutation(uint64_t* source, size_t numberOfBlocks, const short* table) {
 	 while(numberOfBlocks--) {
 		uint64_t destination = 0;
@@ -79,31 +78,36 @@ void _permutation(uint64_t* source, size_t numberOfBlocks, const short* table) {
 	}
 }
 
+PRIVATE
 void _initial_permutation(uint64_t* source, size_t numberOfBlocks) {
-	_permutation(source, numberOfBlocks, IP);
+	_permutation(source, numberOfBlocks, INITIAL_PERMUTATION_TABLE);
 }
 
+PRIVATE
 void _final_permutation(uint64_t* source, size_t numberOfBlocks) {
-	_permutation(source, numberOfBlocks, FP);
+	_permutation(source, numberOfBlocks, FINAL_PERMUTATION_TABLE);
 }
 
 
 
+PRIVATE
 uint64_t _expansion(uint64_t block) {
 	uint64_t right = 0;
 
-	DES64_DO_PERMUTATION(block, right, EXP, 48);
+	DES64_DO_PERMUTATION(block, right, EXPANSION_TABLE, 48);
 
 	return right;
 }
 
 
 
+PRIVATE
 int _find_substitution(int boxNumber, const int block6bits) {
 	int i = ( (block6bits & 0x20) >> 4 )  |  (block6bits & 0x1);
 	int j = (block6bits & 0x1E) >> 1;
-	return SBOX[boxNumber][i][j];
+	return SUBSTITUTION_BOXES_TABLE[boxNumber][i][j];
 }
+PRIVATE
 uint32_t _substitution(uint64_t source) {
 	uint32_t destination = 0;
 
@@ -118,16 +122,18 @@ uint32_t _substitution(uint64_t source) {
 
 
 
+PRIVATE
 void _primitive(uint32_t* source) {
 	uint32_t destination = 0;
 
-	DES64_DO_PERMUTATION(*source, destination, P, 32);
+	DES64_DO_PERMUTATION(*source, destination, PRIMITIVE_TABLE, 32);
 
 	*source = destination;
 }
 
 
 
+PRIVATE
 void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key) {
 	
 	while( numberOfBlocks-- ) {
@@ -147,9 +153,7 @@ void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key) {
 	}
 
 }
-
-
-
+PRIVATE
 void _swap(uint64_t* source, size_t numberOfBlocks) {
 	while( numberOfBlocks-- ) {
 		*source = *source << 32 | *source >> 32;

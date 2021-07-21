@@ -16,11 +16,11 @@ typedef	union {
 } keyblock_t;
 
 
-PRIVATE
-keyblock_t _keyschedule_permuted_choice_1(uint64_t key) ;
 
 PRIVATE
-uint64_t _keyschedule_permuted_choice_2(keyblock_t keyBlock) ;
+keyblock_t _permuted_choice_1(uint64_t key) ;
+PRIVATE
+uint64_t _permuted_choice_2(keyblock_t keyBlock) ;
 
 
 

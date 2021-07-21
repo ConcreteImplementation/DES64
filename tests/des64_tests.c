@@ -7,12 +7,11 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
-
 #include <stdlib.h>
 
 
-#include "../binary_utility/binary_utility.h"
+
+#include "binary_utility/binary_utility.h"
 
 #include "../des64.h"
 
@@ -20,6 +19,7 @@
 
 #include "des64_internals_tests.c"
 #include "des64_keyschedule_tests.c"
+
 
 
 void encrypt_decrypt(void** state){
@@ -43,8 +43,9 @@ void encrypt_decrypt(void** state){
 }
 
 
-int main(int argc, char** argv){
-	
+
+int main(int argc, char** argv)
+{
 	const struct CMUnitTest internals[] = {
 		cmocka_unit_test(initial_permutation),
 		cmocka_unit_test(final_permutation),
@@ -58,10 +59,10 @@ int main(int argc, char** argv){
 
 
 	const struct CMUnitTest keyschedule[] = {
-		cmocka_unit_test(keyschedule_permuted_choice_1),
-		cmocka_unit_test(keyschedule_permuted_choice_2),
-		cmocka_unit_test(keyschedule_permuted_choice_2_2),
-		cmocka_unit_test(keyschedule_build_keyschedule)
+		cmocka_unit_test(permuted_choice_1),
+		cmocka_unit_test(permuted_choice_2_A),
+		cmocka_unit_test(permuted_choice_2_B),
+		cmocka_unit_test(build)
 	};
 
 
@@ -70,7 +71,6 @@ int main(int argc, char** argv){
 	};
 
 
-	printf("DES64_NUMBER_OF_ROUNDS = %d\n", DES64_NUMBER_OF_ROUNDS);
 
 	cmocka_run_group_tests(internals, NULL, NULL);
 	printf("\n");

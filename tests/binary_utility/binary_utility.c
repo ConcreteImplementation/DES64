@@ -7,8 +7,7 @@
 
 
 
-ERRBIN_T bin_itoa_typesize(uint64_t n, long typesize, char* buf, long bufsize){
-	
+ERRBIN_T bin_itoa_typesize(uint64_t n, long typesize, char* buf, long bufsize) {
 	int binsize = typesize * 8;
 	if( bufsize-1 < binsize )
 		return ERRBIN_BUFFER_TOO_SMALL;
@@ -32,8 +31,7 @@ ERRBIN_T bin_itoa_typesize(uint64_t n, long typesize, char* buf, long bufsize){
 
 
 
-char* bin_getptr_skipleadingzeros(char* buf)
-{
+char* bin_getptr_skipleadingzeros(char* buf) {
 	char* ptr = buf;
 	while( *ptr == '0' || *ptr == ' ')
 		ptr++;
@@ -69,7 +67,7 @@ ERRBIN_T bin_string_prettyspace(char* bufin, char* bufout, long bufoutsize, int 
 
 
 
-char* bin_itoa_pretty(uint64_t number, char* buffer, long bufferSize) {
+char* bin_itobin_pretty(uint64_t number, char* buffer, long bufferSize) {
 	char bufferTemp[80];
 
 	ERRBIN_T err = bin_itoa_typesize(number, sizeof(number), bufferTemp, sizeof(bufferTemp));
@@ -80,7 +78,7 @@ char* bin_itoa_pretty(uint64_t number, char* buffer, long bufferSize) {
 
 	err = bin_string_prettyspace(bufferTemp, buffer, bufferSize, 4);
 	if(err) {
-		fprintf(stderr, "error: bin_itoa_typesize() %d\n", err);
+		fprintf(stderr, "error: bin_string_prettyspace() %d\n", err);
 		return NULL;
 	}
 

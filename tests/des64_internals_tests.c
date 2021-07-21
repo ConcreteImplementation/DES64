@@ -10,9 +10,10 @@ void initial_permutation(void** state){
 	char buffer[99] = "";
 	assert_string_equal(
 		"1111 0000 1111 0000 1111 0000 1111 0000 1111 0000 1111 0000 1111 0000 1111 0000",
-		bin_itoa_pretty( source, buffer, sizeof(buffer) )
+		bin_itobin_pretty( source, buffer, sizeof(buffer) )
 	);
 }
+
 
 
 void final_permutation(void** state){
@@ -23,9 +24,11 @@ void final_permutation(void** state){
 	char buffer[99] = "";
 	assert_string_equal(
 		"1111 1111 1111 1111 1111 1111 1111 1111",
-		bin_itoa_pretty( source, buffer, sizeof(buffer) )
+		bin_itobin_pretty( source, buffer, sizeof(buffer) )
 	);
 }
+
+
 
 void permutation_back_and_forth(void** state){
 	uint64_t sourceOriginal =  0xFFFFFFFF;
@@ -46,7 +49,7 @@ void expansion(void** state){
 
 	char buffer[99] = "";
 	assert_string_equal( "1000 0000 0000 0000 0000 0001 0111 1111 1111 1111 1111 1110",
-		bin_itoa_pretty( expanded, buffer, sizeof(buffer) )
+		bin_itobin_pretty( expanded, buffer, sizeof(buffer) )
 	);
 }
 
@@ -69,6 +72,8 @@ void find_substitution(void** state){
 	assert_int_equal(destination, 0x9);
 }
 
+
+
 void substitution(void** state){
 	uint64_t source = 0x0F0F0F0F0F0F;
 	// 000011 110000 111100 001111 000011 110000 111100 001111
@@ -79,9 +84,10 @@ void substitution(void** state){
 
 	char buffer[99] = "";
 	assert_string_equal( "1111 1010 1011 0001 1000 1011 0010 0001",
-		bin_itoa_pretty( destination, buffer, sizeof(buffer) )
+		bin_itobin_pretty( destination, buffer, sizeof(buffer) )
 	);
 }
+
 
 
 void primitive(void** state){
@@ -91,11 +97,9 @@ void primitive(void** state){
 
 	char buffer[99] = "";
 	assert_string_equal( "110 1010 1100 1011 1001 0011 0010 0011",
-		bin_itoa_pretty( source, buffer, sizeof(buffer) )
+		bin_itobin_pretty( source, buffer, sizeof(buffer) )
 	);
 }
-
-
 
 void cipher_function(void** state) {
 	uint64_t source = 0xA;
@@ -105,7 +109,7 @@ void cipher_function(void** state) {
 
 	char buffer[99] = "";
 	assert_string_equal( "100 1010 0111 1100 1111 0110 0011 0000 0000 0000 0000 0000 0000 0000 0000 1010",
-		bin_itoa_pretty( source, buffer, sizeof(buffer) )
+		bin_itobin_pretty( source, buffer, sizeof(buffer) )
 	);
 }
 /*

@@ -2,9 +2,10 @@
 #define _KEYSCHEDULE_HEADER_
 
 
+
 #include <stdint.h>
 
-#include "des64_global_defines.h"
+#include "des64_global_definitions.h"
 
 
 
