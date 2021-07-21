@@ -21,7 +21,7 @@ const uint64_t BITMASKS[64] = {
 	0x1000000000000000, 0x2000000000000000, 0x4000000000000000, 0x8000000000000000
 };
 
-const short INITIAL_PERMUTATION_TABLE[64] = {
+const char INITIAL_PERMUTATION_TABLE[64] = {
 	58, 50, 42, 34, 26, 18, 10, 2,
 	60, 52, 44, 36, 28, 20, 12, 4,
 	62, 54, 46, 38, 30, 22, 14, 6,
@@ -32,7 +32,7 @@ const short INITIAL_PERMUTATION_TABLE[64] = {
 	63, 55, 47, 39, 31, 23, 15, 7
 };
 
-const short FINAL_PERMUTATION_TABLE[64] = {
+const char FINAL_PERMUTATION_TABLE[64] = {
 	40,  8, 48, 16, 56, 24, 64, 32,
 	39,  7, 47, 15, 55, 23, 63, 31,
 	38,  6, 46, 14, 54, 22, 62, 30,
@@ -43,7 +43,7 @@ const short FINAL_PERMUTATION_TABLE[64] = {
 	33,  1, 41,  9, 49, 17, 57, 25
 };
 
-const short EXPANSION_TABLE[48] = {
+const char EXPANSION_TABLE[48] = {
 	32,  1,  2,  3,  4,  5,
 	 4,  5,  6,  7,  8,  9,
 	 8,  9, 10, 11, 12, 13,
@@ -54,7 +54,7 @@ const short EXPANSION_TABLE[48] = {
 	28, 29, 30, 31, 32,  1
 };
 
-const short SUBSTITUTION_BOXES_TABLE[8][4][16] = {
+const char SUBSTITUTION_BOXES_TABLE[8][4][16] = {
 	//S1
 	{
 		{ 14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5,  9,  0,  7 },
@@ -113,7 +113,7 @@ const short SUBSTITUTION_BOXES_TABLE[8][4][16] = {
 	}
 };
 
-const short PRIMITIVE_TABLE[32] = {
+const char PRIMITIVE_TABLE[32] = {
 	16,  7, 20, 21,
 	29, 12, 28, 17,
 	 1, 15, 23, 26,
@@ -126,7 +126,7 @@ const short PRIMITIVE_TABLE[32] = {
 
 
 
-const short PERMUTED_CHOICE_1_TABLE[56] = {
+const char PERMUTED_CHOICE_1_TABLE[56] = {
 	57, 49, 41, 33, 25, 17,  9,
 	 1, 58, 50, 42, 34, 26, 18,
 	10,  2, 59, 51, 43, 35, 27,
@@ -138,7 +138,7 @@ const short PERMUTED_CHOICE_1_TABLE[56] = {
 	21, 13,  5, 28, 20, 12,  4
 };
 
-const short PERMUTED_CHOICE_2_TABLE[48] = {
+const char PERMUTED_CHOICE_2_TABLE[48] = {
 	14, 17, 11, 24,  1,  5,
 	 3, 28, 15,  6, 21, 10,
 	23, 19, 12,  4, 26,  8,
@@ -149,7 +149,7 @@ const short PERMUTED_CHOICE_2_TABLE[48] = {
 	46, 42, 50, 36, 29, 32
 };
 
-const short KEYSCHEDULE_LEFT_SHIFT_TABLE[16] = {
+const char KEYSCHEDULE_LEFT_SHIFT_TABLE[16] = {
 	1, 1, 2, 2,
 	2, 2, 2, 2,
 	1, 2, 2, 2,

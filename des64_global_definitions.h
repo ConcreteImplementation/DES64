@@ -10,7 +10,7 @@
 #ifdef TESTING
 	#define PRIVATE
 #else
-	#define PRIVATE static
+	#define PRIVATE inline static
 #endif
 
 
@@ -33,14 +33,14 @@ const uint64_t BITMASKS[64];
 			
 
 
-const short INITIAL_PERMUTATION_TABLE[64];
-const short FINAL_PERMUTATION_TABLE[64];
-const short EXPANSION_TABLE[48];
-const short SUBSTITUTION_BOXES_TABLE[8][4][16];
-const short PRIMITIVE_TABLE[32];
-const short PERMUTED_CHOICE_1_TABLE[56];
-const short PERMUTED_CHOICE_2_TABLE[48];
-const short KEYSCHEDULE_LEFT_SHIFT_TABLE[16];
+const char INITIAL_PERMUTATION_TABLE[64];
+const char FINAL_PERMUTATION_TABLE[64];
+const char EXPANSION_TABLE[48];
+const char SUBSTITUTION_BOXES_TABLE[8][4][16];
+const char PRIMITIVE_TABLE[32];
+const char PERMUTED_CHOICE_1_TABLE[56];
+const char PERMUTED_CHOICE_2_TABLE[48];
+const char KEYSCHEDULE_LEFT_SHIFT_TABLE[16];
 
 
 

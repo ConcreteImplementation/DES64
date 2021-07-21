@@ -67,7 +67,7 @@ int des64_enciphering_computation(void* plainText, size_t textSize, des64_contex
 
 
 PRIVATE
-void _permutation(uint64_t* source, size_t numberOfBlocks, const short* table) {
+void _permutation(uint64_t* source, size_t numberOfBlocks, const char* table) {
 	 while(numberOfBlocks--) {
 		uint64_t destination = 0;
 
