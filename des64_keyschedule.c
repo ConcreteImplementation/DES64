@@ -50,7 +50,7 @@ keyblock_t _permuted_choice_1(uint64_t key) {
 
 	DES64_DO_PERMUTATION(key, block, PERMUTED_CHOICE_1_TABLE, 56);
 
-	keyblock_t keyBlock;
+	keyblock_t keyBlock = {0};
 	keyBlock.C = block >> 28;
 	keyBlock.D = block & 0xFFFFFFF;
 

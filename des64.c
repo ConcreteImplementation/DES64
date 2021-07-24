@@ -101,19 +101,23 @@ uint64_t _expansion(uint64_t block) {
 
 
 
+
+
+
+#define LOWER_6BITS_MASK 0x3F // 11 1111
+
 PRIVATE
-int _find_substitution(int boxNumber, const int block6bits) {
-	int i = ( (block6bits & 0x20) >> 4 )  |  (block6bits & 0x1);
-	int j = (block6bits & 0x1E) >> 1;
-	return SUBSTITUTION_BOXES_TABLE[boxNumber][i][j];
+int _find_substitution(int boxNumber, const int source) {
+	return SUBSTITUTION_BOXES_TABLE[boxNumber][source & LOWER_6BITS_MASK];
 }
+
 PRIVATE
 uint32_t _substitution(uint64_t source) {
 	uint32_t destination = 0;
-
-	for(int boxNumber = 7; boxNumber >= 0 ; boxNumber--) {
+	
+	for(int boxNumber = 7; boxNumber >= 0; boxNumber--) {
 		uint32_t substitution = _find_substitution(boxNumber, source);
-		destination |= substitution  <<  ( (7-boxNumber) * 4);
+		destination |= substitution << (7-boxNumber)*4;
 		source >>= 6;
 	}
 
@@ -132,7 +136,7 @@ void _primitive(uint32_t* source) {
 }
 
 
-#include "tests/binary_utility/binary_utility.h"
+
 PRIVATE
 void _cipher_function(uint64_t* source, size_t numberOfBlocks, uint64_t key) {
 	
